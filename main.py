@@ -1,16 +1,34 @@
-# This is a sample Python script.
+import numpy as np
+import pandas as pd
+from pandas import read_csv
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from sklearn.impute import SimpleImputer
 
+# Declaring Headers
+headerNames = ['preg', 'plas', 'pres', 'skin', 'test', 'mass', 'pedi', 'age', 'class']
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+# Load data and map it with declared headers
+myData = read_csv('venv/pima_indians_diabetes.csv', names=headerNames)
 
+# Calculating mean
+myData.mean()
+# Calculating median
+myData.median()
+# Calculating mode
+myData.mode()
+# Describing The data
+myData.describe()
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+# Print the Original dimensions
+print('\nInitial Data Dimensions\n', myData.shape)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+# Option 1: Drop rows with empty Values
+myData = myData.dropna()
+# Option 2: Replace rows with empty Values using simpleImputer
+imputer = SimpleImputer(strategy='median') # replaces with most frequent median
+imputer.fit(myData)
+myData = pd.DataFrame(myData)
+
+# Print New Dimensions
+print('\nNew Data Dimensions\n', myData.shape)
+myData.mean(skipna=False)
